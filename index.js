@@ -1,6 +1,9 @@
 var formdata = require('form-data')
 var fs       = require('fs')
 var http     = require('http')
+var util     = require('util')
+var multiparty = require('multiparty')
+
 
 var fd = new formdata();
 fd.append('attachment', fs.createReadStream('/Users/emellum/Desktop/projects/launchpad_projects/apps.zip'))
@@ -12,8 +15,9 @@ var headers = fd.getHeaders();
 headers.Authentication = 'b3b2a169f471742feb38e263c5043812fc71b654'
 var request = http.request({
   method: 'post',
-  host: 'host.zurb.com',
-  path: '/api/v1/prototypes',
+  host: 'localhost',
+  port: 3000,
+  path: '/prototypes',
   headers: headers
 });
 
@@ -24,7 +28,7 @@ request.on('response', function(res) {
   console.log(res);
   console.log(res.hosted_url);
 });
-fd.submit('https://host.zurb.com/api/v1/prototypes', function(err, data){
+/**fd.submit('localhost:8019/upload', function(err, data){
   console.log(err);
   console.log(data.hosted_url);
-})
+})**/
