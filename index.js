@@ -6,18 +6,17 @@ var multiparty = require('multiparty')
 
 
 var fd = new formdata();
-fd.append('attachment', fs.createReadStream('/Users/zoran/Downloads/large-file.zip'))
-fd.append('name', 'test');
-fd.append('description', 'test');
-fd.append('token', 'b3b2a169f471742feb38e263c5043812fc71b654');
-fd.append('project_id', 2);
+fd.append('site[upload]', fs.createReadStream('/path/to/file.zip'))
+fd.append('site[name]', 'Test Title');
+fd.append('site[description]', 'This is a test description.');
+// fd.append('project_id', 2);
 var headers = fd.getHeaders();
-headers.Authentication = 'b3b2a169f471742feb38e263c5043812fc71b654';
+headers.Authentication = 'b889f114-b345-4214-b5fc-d68ed6cf7211';
 var request = http.request({
   method: 'POST',
-  host: 'host.notable.dev',
+  host: 'code.notable.dev',
   // port: 3000,
-  path: '/api/v1/prototypes',
+  path: '/api/yeti_launch/sites',
   headers: headers
 });
 
@@ -25,7 +24,10 @@ fd.pipe(request);
 
 request.on('response', function(res) {
   console.log(res.statusCode);
-  console.log(res.prototype_id);
+  console.log(res);
+})
+.on('error', function(res) {
+  console.log(res);
 });
 
 /**fd.submit('localhost:8019/upload', function(err, data){
